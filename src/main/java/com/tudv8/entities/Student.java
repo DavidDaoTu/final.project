@@ -1,6 +1,10 @@
 package com.tudv8.entities;
 
+import org.springframework.context.annotation.EnableMBeanExport;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +22,9 @@ public class Student {
 
     @Column(name = "birthdate", nullable = false)
     private String birthdate;
+
+    @OneToMany(mappedBy = "student")
+    private List<StudentCourse> studentCourses = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -58,6 +65,18 @@ public class Student {
 
     public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public List<StudentCourse> getStudentCourses() {
+        return studentCourses;
+    }
+
+    public void setStudentCourses(List<StudentCourse> studentCourses) {
+        this.studentCourses = studentCourses;
+    }
+
+    public void addStudentCourses(StudentCourse studentCourse) {
+        this.studentCourses.add(studentCourse);
     }
 
     @Override

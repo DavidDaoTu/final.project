@@ -22,7 +22,7 @@ public class StudentController {
 
 	@GetMapping("/students/{studentID}")
 	public Student getStudent(@PathVariable Long studentID) {
-		Student stud = studentService.getStudentById(studentID);
+		Student stud = studentService.getCourseById(studentID);
 		if (stud == null) {
 			throw new RuntimeException("Can't find the student with id: " + studentID);
 		}

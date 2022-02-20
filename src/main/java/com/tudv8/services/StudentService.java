@@ -17,7 +17,7 @@ public class StudentService {
         return studentDao.findAll();
     }
 
-    public Student getStudentById(Long id) {
+    public Student getCourseById(Long id) {
 
         Optional<Student> student = studentDao.findById(id);
         if (student.isPresent()) {
