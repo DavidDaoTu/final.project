@@ -1,8 +1,11 @@
 package com.tudv8.services;
 
 import com.tudv8.entities.Student;
+import com.tudv8.model.ResponseData;
 import com.tudv8.repositories.StudentDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +30,22 @@ public class StudentService {
         }
     }
 
-    public void saveStudent(Student student) {
-        studentDao.save(student);
+    public ResponseEntity<ResponseData> saveStudent(Student student) {
+        ResponseEntity<ResponseData> respObj = null;
+        ResponseData respData = null;
+
+        if ( student.getStudentName() == null) {
+            respData = new ResponseData(-1, student,"Missing Student Name");
+        } else if (student.getBirthdate() == null) {
+            respData = new ResponseData(-1, student, "Missing Birth Date");
+        } else if(student.getAddress() == null) {
+            respData = new ResponseData(-1, student, "Missing Address");
+        } else {
+            respData = new ResponseData(0,student,"Success");
+            studentDao.save(student);
+        }
+        respObj = new ResponseEntity<ResponseData>(respData, HttpStatus.OK);
+        return respObj;
     }
+
 }

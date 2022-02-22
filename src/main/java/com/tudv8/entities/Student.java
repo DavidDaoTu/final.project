@@ -1,7 +1,5 @@
 package com.tudv8.entities;
 
-import org.springframework.context.annotation.EnableMBeanExport;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +12,8 @@ public class Student {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "student_name", nullable = false)
+    private String studentName;
 
     @Column(name = "address", nullable = false)
     private String address;
@@ -38,17 +36,17 @@ public class Student {
     }
 
     public Student(String name, String address, String birthdate) {
-        this.name = name;
+        this.studentName = name;
         this.address = address;
         this.birthdate = birthdate;
     }
 
-    public String getName() {
-        return name;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
     public String getAddress() {
@@ -84,19 +82,19 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(id, student.id) && Objects.equals(name, student.name) && Objects.equals(address, student.address) && Objects.equals(birthdate, student.birthdate);
+        return Objects.equals(id, student.id) && Objects.equals(studentName, student.studentName) && Objects.equals(address, student.address) && Objects.equals(birthdate, student.birthdate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, birthdate);
+        return Objects.hash(id, studentName, address, birthdate);
     }
 
     @Override
     public String toString() {
         return "Student{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + studentName + '\'' +
                 ", address='" + address + '\'' +
                 ", birthdate='" + birthdate + '\'' +
                 '}';

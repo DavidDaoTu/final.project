@@ -1,8 +1,10 @@
 package com.tudv8.controllers;
 
 import com.tudv8.entities.Student;
+import com.tudv8.model.ResponseData;
 import com.tudv8.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,12 +32,11 @@ public class StudentController {
 	}
 
 	@PostMapping("/students")
-	public Student addStudent(@RequestBody Student theStudent) {
+	public ResponseEntity<ResponseData> addStudent(@RequestBody Student theStudent) {
 		// just in case they pass an id i JSON... set id = 0
 		// --> Create new student instead of updating
 		theStudent.setId(0L);
-		studentService.saveStudent(theStudent);
-		return theStudent;
+		return studentService.saveStudent(theStudent);
 	}
 
 }

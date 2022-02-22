@@ -1,8 +1,11 @@
 package com.tudv8.controllers;
 
 import com.tudv8.entities.Course;
+import com.tudv8.model.ResponseData;
 import com.tudv8.services.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,12 +33,11 @@ public class CourseController {
 	}
 
 	@PostMapping("/courses")
-	public Course addStudent(@RequestBody Course theCourse) {
+	public ResponseEntity<ResponseData> addCourse(@RequestBody Course theCourse) {
 		// just in case they pass an id i JSON... set id = 0
 		// --> Create new student instead of updating
 		theCourse.setId(0L);
-		courseService.saveCourse(theCourse);
-		return theCourse;
+		return courseService.registerCourse(theCourse);
 	}
 
 }

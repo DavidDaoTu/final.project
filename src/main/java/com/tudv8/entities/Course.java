@@ -13,8 +13,8 @@ public class Course {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "course_name", nullable = false)
+    private String courseName;
 
     @Column(name = "start_date", nullable = false)
     private Timestamp startDate;
@@ -61,12 +61,12 @@ public class Course {
         this.courseStudents.add(studentCourse);
     }
 
-    public String getName() {
-        return name;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     @Override
