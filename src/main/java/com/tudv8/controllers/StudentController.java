@@ -1,6 +1,7 @@
 package com.tudv8.controllers;
 
 import com.tudv8.entities.Student;
+import com.tudv8.message.CourseIdRegList;
 import com.tudv8.message.ResponseData;
 import com.tudv8.services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +34,17 @@ public class StudentController {
 
 	@PostMapping("/students")
 	public ResponseEntity<ResponseData> addStudent(@RequestBody Student theStudent) {
-		// just in case they pass an id i JSON... set id = 0
+		// just in case they pass an id in JSON... set id = 0
 		// --> Create new student instead of updating
 		theStudent.setId(0L);
 		return studentService.saveStudent(theStudent);
+	}
+
+	@PostMapping("/student/{studentId}/registration")
+	public ResponseEntity<ResponseData> registerCourse(@PathVariable Long studentId,
+													   @RequestBody CourseIdRegList courseIds)
+	{
+		return studentService.enrollCourses(studentId, courseIds);
 	}
 
 }
