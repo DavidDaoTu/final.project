@@ -1,4 +1,4 @@
-package com.tudv8.model;
+package com.tudv8.message;
 
 public class ResponseData {
     private int errCode;

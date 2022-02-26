@@ -1,7 +1,7 @@
 package com.tudv8.services;
 
 import com.tudv8.entities.Student;
-import com.tudv8.model.ResponseData;
+import com.tudv8.message.ResponseData;
 import com.tudv8.repositories.StudentDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

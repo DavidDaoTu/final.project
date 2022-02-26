@@ -1,0 +1,21 @@
+course_id,course_name,start_date,end_date
+1,2022 Complete Python Bootcamp From Zero to Hero in Python,2021-12-12 23:00:00,2021-12-31 23:00:00
+2,The Web Developer Bootcamp 2022,2021-12-20 23:00:00,2021-12-29 23:00:00
+3,The Complete 2022 Web Development Bootcamp,2021-12-15 00:00:00,2022-01-09 12:02:00
+4,Angular - The Complete Guide (2022 Edition),2021-12-31 01:00:00,2022-01-29 12:12:00
+5,Java Programming Masterclass covering Java 11 & Java 17,2021-12-20 02:00:00,2021-12-31 23:00:23
+6,React - The Complete Guide,2021-01-01 03:00:12,2021-12-12 03:00:00
+7,The Complete JavaScript Course 2022: From Zero to Expert!,2021-01-01 03:00:12,2021-12-12 03:00:00
+8,Automate the Boring Stuff with Python Programming,2021-12-25 01:00:00,2021-12-29 12:12:00
+9,Complete C# Unity Game Developer 2D,2021-12-22 23:00:00,2021-12-31 23:00:00
+10,Learn Python Programming Masterclass,2021-12-28 23:00:00,2021-12-31 23:00:00
+11,Git Going Fast - One Hour Git Crash Course,2021-12-29 00:00:00,2022-01-31 00:00:00
+12,Learn DevOps: CI/CD with Jenkins using Pipelines,2021-12-22 00:00:00,2022-01-01 00:00:00
+13,Learn DevOps: Infrastructure Automation With Terraform,2022-01-01 12:12:12,2022-05-01 12:12:12
+14,Entity Framework in Depth: The Complete Guide,2022-01-01 12:12:12,2022-05-01 12:12:12
+15,Jenkins From Zero To Hero: Become a DevOps Jenkins Master,2022-01-01 12:12:12,2022-05-01 12:12:12
+16,Learn Java Unit Testing with Junit & Mockito in 30 Steps,2022-01-01 12:12:12,2022-05-01 12:12:12
+17,Learn JMETER from Scratch on Live Apps -Performance Testing,2022-01-01 12:12:12,2022-05-01 12:12:12
+18,HashiCorp Certified: Terraform Associate 2021,2022-01-01 12:12:12,2022-05-01 12:12:12
+19,DevOps: CI/CD with Jenkins pipelines - Maven- Gradle,2022-01-01 12:12:12,2022-05-01 12:12:12
+20,GitHub Ultimate: Master Git and GitHub - Beginner to Expert,2022-01-01 12:12:12,2022-05-01 12:12:12

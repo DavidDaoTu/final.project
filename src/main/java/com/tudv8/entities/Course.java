@@ -25,6 +25,16 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private List<StudentCourse> courseStudents = new ArrayList<>();
 
+    public Course() {
+    }
+
+    public Course(Long id, String courseName, Timestamp startDate, Timestamp endDate) {
+        this.id = id;
+        this.courseName = courseName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public Long getId() {
         return id;
     }
