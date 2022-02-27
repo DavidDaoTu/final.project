@@ -1,10 +1,12 @@
 package com.tudv8.controllers;
 
 import com.tudv8.entities.Student;
-import com.tudv8.messages.CourseIdRegList;
+import com.tudv8.messages.CourseRegList;
 import com.tudv8.messages.ResponseData;
+import com.tudv8.messages.CourseScoreList;
 import com.tudv8.services.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +44,7 @@ public class StudentController {
 
 	@PostMapping("/student/{studentId}/registration")
 	public ResponseEntity<ResponseData> registerCourse(@PathVariable Long studentId,
-													   @RequestBody CourseIdRegList courseIds)
+													   @RequestBody CourseRegList courseIds)
 	{
 		return studentServiceImpl.enrollCourses(studentId, courseIds);
 	}
@@ -55,5 +57,13 @@ public class StudentController {
 		return studentServiceImpl.setScore(studentId, courseId, score);
 	}
 
+	@PostMapping("/student/set-scores")
+	public ResponseEntity<ResponseData> setScores(@RequestParam Long studentId,
+												  @RequestBody CourseScoreList courseScoreList)
+	{
+		return studentServiceImpl.setScores(studentId,
+											courseScoreList.getCourseList(),
+											courseScoreList.getScoreList());
+	}
 
 }

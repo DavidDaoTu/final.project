@@ -2,13 +2,13 @@ package com.tudv8.messages;
 
 import java.util.List;
 
-public class CourseIdRegList {
+public class CourseRegList {
     private List<Long> idList;
 
-    public CourseIdRegList() {
+    public CourseRegList() {
     }
 
-    public CourseIdRegList(List<Long> idList) {
+    public CourseRegList(List<Long> idList) {
         this.idList = idList;
     }
 

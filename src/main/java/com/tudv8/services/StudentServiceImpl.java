@@ -4,7 +4,7 @@ import com.tudv8.entities.Course;
 import com.tudv8.entities.Student;
 import com.tudv8.entities.StudentCourse;
 import com.tudv8.entities.StudentCourseId;
-import com.tudv8.messages.CourseIdRegList;
+import com.tudv8.messages.CourseRegList;
 import com.tudv8.messages.ResponseData;
 import com.tudv8.repositories.CourseDAO;
 import com.tudv8.repositories.StudentCourseDAO;
@@ -25,9 +25,6 @@ public class StudentServiceImpl implements  StudentService{
 
     @Autowired
     CourseDAO courseDAO;
-
-    @Autowired
-    CourseService courseService;
 
     @Autowired
     StudentCourseDAO studentCourseDao;
@@ -64,7 +61,7 @@ public class StudentServiceImpl implements  StudentService{
         return respObj;
     }
 
-    public ResponseEntity<ResponseData> enrollCourses(Long studentId, CourseIdRegList courseIdList) {
+    public ResponseEntity<ResponseData> enrollCourses(Long studentId, CourseRegList courseRegList) {
         //TODO: Add checking start_date; set student_course in student & course entity
 
         ResponseEntity<ResponseData> respObj = null;
@@ -81,7 +78,7 @@ public class StudentServiceImpl implements  StudentService{
 
         /* Step 2: Find the course with given the list of IDs  */
         List<Course> courses;
-        courses = courseDAO.findAllById(courseIdList.getIdList());
+        courses = courseDAO.findAllById(courseRegList.getIdList());
 
         /* Step 3: Add to StudentCourse */
         List<StudentCourse> studentCourseList = new ArrayList<>();
@@ -115,11 +112,43 @@ public class StudentServiceImpl implements  StudentService{
             studentCourse.setScore(score);
             studentCourseDao.save(studentCourse);
             respData = new ResponseData(0, null, "Success to set score");
-            respObj = new ResponseEntity<ResponseData>(respData, HttpStatus.OK);
+        } else {
+            respData = new ResponseData(-1, null,
+                                "Can't find student with ID: " + studentId);
+        }
+        respObj = new ResponseEntity<ResponseData>(respData, HttpStatus.OK);
+        return respObj;
+    }
+
+    public ResponseEntity<ResponseData> setScores(Long studentId,
+                                                  List<Long> courseIdsList,
+                                                  List<Integer> scores)
+    {
+        ResponseEntity<ResponseData> respObj = null;
+        ResponseData respData = null;
+
+        List<StudentCourse> studentCourses = studentCourseDao.findAllByStudentId(studentId);
+
+
+        if (studentCourses.size() != 0) {
+            int idx = 0;
+
+            for (StudentCourse sc : studentCourses) {
+                idx = courseIdsList.indexOf(sc.getCourse().getId());
+                if (idx >= 0) {
+                    sc.setScore(scores.get(idx));
+                }
+            }
+            studentCourseDao.saveAll(studentCourses);
+
+            respData = new ResponseData(0, null, "Success to set score");
+        } else {
+            respData = new ResponseData(-1, null,
+                    "Can't find student with ID: " + studentId);
         }
 
+        respObj = new ResponseEntity<ResponseData>(respData, HttpStatus.OK);
         return respObj;
-
     }
 
     @Override
