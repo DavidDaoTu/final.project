@@ -6,6 +6,7 @@ import com.tudv8.entities.StudentCourse;
 import com.tudv8.entities.StudentCourseId;
 import com.tudv8.messages.CourseRegList;
 import com.tudv8.messages.ResponseData;
+import com.tudv8.messages.TopCourses;
 import com.tudv8.repositories.CourseDAO;
 import com.tudv8.repositories.StudentCourseDAO;
 import com.tudv8.repositories.StudentDAO;
@@ -144,10 +145,38 @@ public class StudentServiceImpl implements  StudentService{
             respData = new ResponseData(0, null, "Success to set score");
         } else {
             respData = new ResponseData(-1, null,
-                    "Can't find student with ID: " + studentId);
+                    "Student with ID: " + studentId + "not registered any courses");
         }
 
         respObj = new ResponseEntity<ResponseData>(respData, HttpStatus.OK);
+        return respObj;
+    }
+
+    public ResponseEntity<ResponseData> getTop10CoursesWithHighScores(Long studentId) {
+        ResponseEntity<ResponseData> respObj = null;
+        ResponseData respData = null;
+
+        List<StudentCourse> studentCourses = studentCourseDao.findAllByStudentIdOrderByScore(studentId);
+
+        List<TopCourses> topCourses = new ArrayList<>();
+        int cnt = 0;
+
+        if (studentCourses.size() > 0) {
+            for (StudentCourse sc : studentCourses) {
+                cnt++;
+                topCourses.add(new TopCourses(sc.getCourse().getId(),
+                                                sc.getCourse().getCourseName(),
+                                                sc.getScore()));
+                if (cnt >= 10) {
+                    break;
+                }
+            }
+            respData = new ResponseData(0, topCourses, "Success to find top 10 courses");
+        } else {
+            respData = new ResponseData(-1, null, "Student not registered courses yet");
+        }
+        respObj = new ResponseEntity<ResponseData>(respData, HttpStatus.OK);
+
         return respObj;
     }
 

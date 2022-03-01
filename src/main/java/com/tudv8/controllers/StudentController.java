@@ -4,6 +4,7 @@ import com.tudv8.entities.Student;
 import com.tudv8.messages.CourseRegList;
 import com.tudv8.messages.ResponseData;
 import com.tudv8.messages.CourseScoreList;
+import com.tudv8.messages.TopCourses;
 import com.tudv8.services.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,20 +51,25 @@ public class StudentController {
 	}
 
 	@PostMapping("/student/set-score")
-	public ResponseEntity<ResponseData> setScore(@RequestParam Long studentId,
-												 @RequestParam Long courseId,
-												 @RequestParam int score)
+	public ResponseEntity<ResponseData> setScoreOfCourse(@RequestParam Long studentId,
+														 @RequestParam Long courseId,
+														 @RequestParam int score)
 	{
 		return studentServiceImpl.setScore(studentId, courseId, score);
 	}
 
 	@PostMapping("/student/set-scores")
-	public ResponseEntity<ResponseData> setScores(@RequestParam Long studentId,
-												  @RequestBody CourseScoreList courseScoreList)
+	public ResponseEntity<ResponseData> setScoresOfCourses(@RequestParam Long studentId,
+														   @RequestBody CourseScoreList courseScoreList)
 	{
 		return studentServiceImpl.setScores(studentId,
 											courseScoreList.getCourseList(),
 											courseScoreList.getScoreList());
+	}
+
+	@GetMapping("/student/{studentId}/top-score-courses")
+	public ResponseEntity<ResponseData> getTopScoreCourses(@PathVariable Long studentId) {
+		return studentServiceImpl.getTop10CoursesWithHighScores(studentId);
 	}
 
 }
