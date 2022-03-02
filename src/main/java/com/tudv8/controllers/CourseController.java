@@ -51,4 +51,14 @@ public class CourseController {
 		return courseServiceImpl.uploadCSVFileToCourseDB(file);
 	}
 
+	@GetMapping("/courses/search")
+	public ResponseEntity<ResponseData> findCourses(@RequestParam String courseName) {
+
+		if (courseName == null || courseName.length() == 0) {
+			ResponseData respData = new ResponseData(-1, null, "Course Name is NULL");
+			return new ResponseEntity<>(respData, HttpStatus.OK);
+		}
+		return courseServiceImpl.findCourseByName(courseName);
+	}
+
 }

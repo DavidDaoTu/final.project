@@ -65,6 +65,22 @@ public class CourseServiceImpl implements CourseService{
         return  resObj;
     }
 
+    public ResponseEntity<ResponseData> findCourseByName(String name) {
+        ResponseEntity<ResponseData> resObj = null;
+        ResponseData respData;
+
+        List<Course> courses = courseDao.findByCourseNameLikeOrderByCourseNameDesc(name + "%");
+        //List<Course> courses = courseDao.findByCourseNameLike(name + "%");
+
+        if (courses.size() > 0 ) {
+            respData = new ResponseData(0, courses, "Success to found courses");
+        } else {
+            respData = new ResponseData(-1, null, "Not Found courses with name: " + name);
+        }
+        resObj = new ResponseEntity<>(respData, HttpStatus.OK);
+        return resObj;
+    }
+
     @Override
     public Course findCourseById(Long id) {
         Optional<Course> courseOptional = courseDao.findById(id);
