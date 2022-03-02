@@ -1,13 +1,11 @@
 package com.tudv8.controllers;
 
 import com.tudv8.entities.Student;
-import com.tudv8.messages.CourseRegList;
+import com.tudv8.messages.CourseIdsList;
 import com.tudv8.messages.ResponseData;
 import com.tudv8.messages.CourseScoreList;
-import com.tudv8.messages.TopCourses;
 import com.tudv8.services.StudentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +43,7 @@ public class StudentController {
 
 	@PostMapping("/student/{studentId}/registration")
 	public ResponseEntity<ResponseData> registerCourse(@PathVariable Long studentId,
-													   @RequestBody CourseRegList courseIds)
+													   @RequestBody CourseIdsList courseIds)
 	{
 		return studentServiceImpl.enrollCourses(studentId, courseIds);
 	}
@@ -71,5 +69,7 @@ public class StudentController {
 	public ResponseEntity<ResponseData> getTopScoreCourses(@PathVariable Long studentId) {
 		return studentServiceImpl.getTop10CoursesWithHighScores(studentId);
 	}
+
+	// TODO: student should have right to unregister course
 
 }

@@ -2,6 +2,8 @@ package com.tudv8.controllers;
 
 import com.tudv8.entities.Course;
 import com.tudv8.helper.CSVHelper;
+import com.tudv8.messages.CourseInfo;
+import com.tudv8.messages.CourseIdsList;
 import com.tudv8.messages.ResponseData;
 import com.tudv8.services.CourseServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +62,19 @@ public class CourseController {
 		}
 		return courseServiceImpl.findCourseByName(courseName);
 	}
+
+	@PutMapping("/course/update")
+	public ResponseEntity<ResponseData> updateCourse(@RequestBody CourseInfo courseInfo) {
+
+		return courseServiceImpl.updateCourseInfo(courseInfo);
+	}
+
+	@PostMapping("/courses/delete")
+	public ResponseEntity<ResponseData> deleteCourse(@RequestParam CourseIdsList ids) {
+
+		return courseServiceImpl.deleteCourse(ids);
+	}
+
+
 
 }

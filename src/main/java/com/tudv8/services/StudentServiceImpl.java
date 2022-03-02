@@ -4,7 +4,7 @@ import com.tudv8.entities.Course;
 import com.tudv8.entities.Student;
 import com.tudv8.entities.StudentCourse;
 import com.tudv8.entities.StudentCourseId;
-import com.tudv8.messages.CourseRegList;
+import com.tudv8.messages.CourseIdsList;
 import com.tudv8.messages.ResponseData;
 import com.tudv8.messages.TopCourses;
 import com.tudv8.repositories.CourseDAO;
@@ -62,7 +62,7 @@ public class StudentServiceImpl implements  StudentService{
         return respObj;
     }
 
-    public ResponseEntity<ResponseData> enrollCourses(Long studentId, CourseRegList courseRegList) {
+    public ResponseEntity<ResponseData> enrollCourses(Long studentId, CourseIdsList courseIdsList) {
         //TODO: Add checking start_date; set student_course in student & course entity
 
         ResponseEntity<ResponseData> respObj = null;
@@ -79,7 +79,7 @@ public class StudentServiceImpl implements  StudentService{
 
         /* Step 2: Find the course with given the list of IDs  */
         List<Course> courses;
-        courses = courseDAO.findAllById(courseRegList.getIdList());
+        courses = courseDAO.findAllById(courseIdsList.getIdList());
 
         /* Step 3: Add to StudentCourse */
         List<StudentCourse> studentCourseList = new ArrayList<>();
