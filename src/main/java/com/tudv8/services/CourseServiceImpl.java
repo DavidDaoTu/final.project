@@ -142,20 +142,23 @@ public class CourseServiceImpl implements CourseService{
                     currentTime.compareTo(course.getEndDate().toLocalDateTime()) <= 0) {
                     continue;
                 }
-                List<StudentCourse> sc = course.getCourseStudents();
-                if (sc.size() > 0) {
-                    studentCourseDAO.deleteAll(sc);
-                }
-                courseDao.delete(course);
 
+                List<StudentCourse> sc = course.getCourseStudents();
+                if (!sc.isEmpty()) {
+                    studentCourseDAO.deleteAll(sc); // also delete from STUDENT_COURSE table
+                }
+
+                courseDao.delete(course);
                 deletedCourses.add(new CourseInfo(course.getId(), course.getCourseName(),
                                                 course.getStartDate(), course.getEndDate()));
             }
-            if (deletedCourses.size() > 0) {
+
+            if (!deletedCourses.isEmpty()) {
                 respData = new ResponseData(0, deletedCourses, "Success to delete courses");
             } else {
-                respData = new ResponseData(0, null, "No courses deleted");
+                respData = new ResponseData(0, null, "No valid courses deleted");
             }
+
         } else {
             respData = new ResponseData(-1, null, "No courses found");
         }
