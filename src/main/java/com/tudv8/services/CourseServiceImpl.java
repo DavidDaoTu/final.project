@@ -1,12 +1,14 @@
 package com.tudv8.services;
 
 import com.tudv8.entities.Course;
+import com.tudv8.entities.StudentCourse;
 import com.tudv8.helper.CSVHelper;
 import com.tudv8.messages.CourseIdsList;
 import com.tudv8.messages.CourseInfo;
 import com.tudv8.messages.ResponseData;
 import com.tudv8.repositories.CourseDAO;
 
+import com.tudv8.repositories.StudentCourseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +24,9 @@ import java.util.Optional;
 public class CourseServiceImpl implements CourseService{
     @Autowired
     CourseDAO courseDao;
+
+    @Autowired
+    StudentCourseDAO studentCourseDAO;
 
     public List<Course> getAllCourses() {
         return courseDao.findAll();
@@ -95,8 +101,8 @@ public class CourseServiceImpl implements CourseService{
         } else {
             // step2: Check whether the course already started
             LocalDateTime currentTime = LocalDateTime.now();
-            if ((currentTime.compareTo(updatedCourse.getStartDate().toLocalDateTime()) > 0) &&
-                (currentTime.compareTo(updatedCourse.getEndDate().toLocalDateTime()) < 0))
+            if ((currentTime.compareTo(updatedCourse.getStartDate().toLocalDateTime()) >= 0) &&
+                (currentTime.compareTo(updatedCourse.getEndDate().toLocalDateTime()) <= 0))
             {
                 respData = new ResponseData(-2, courseInfo, "The course is already started! Can't changed");
             } else {
@@ -121,12 +127,40 @@ public class CourseServiceImpl implements CourseService{
         return resObj;
     }
 
-    public ResponseEntity<ResponseData> deleteCourse(CourseIdsList ids) {
+    public ResponseEntity<ResponseData> deleteCourses(CourseIdsList ids) {
         ResponseEntity<ResponseData> resObj = null;
         ResponseData respData;
 
-        // TODO: delete courses
+        List<Course> courses = courseDao.findAllById(ids.getIdList());
+        LocalDateTime currentTime = LocalDateTime.now();
 
+        List<CourseInfo> deletedCourses = new ArrayList<>();
+
+        if (courses.size() > 0) {
+            for (Course course : courses) {
+                if (currentTime.compareTo(course.getStartDate().toLocalDateTime()) >= 0 &&
+                    currentTime.compareTo(course.getEndDate().toLocalDateTime()) <= 0) {
+                    continue;
+                }
+                List<StudentCourse> sc = course.getCourseStudents();
+                if (sc.size() > 0) {
+                    studentCourseDAO.deleteAll(sc);
+                }
+                courseDao.delete(course);
+
+                deletedCourses.add(new CourseInfo(course.getId(), course.getCourseName(),
+                                                course.getStartDate(), course.getEndDate()));
+            }
+            if (deletedCourses.size() > 0) {
+                respData = new ResponseData(0, deletedCourses, "Success to delete courses");
+            } else {
+                respData = new ResponseData(0, null, "No courses deleted");
+            }
+        } else {
+            respData = new ResponseData(-1, null, "No courses found");
+        }
+
+        resObj = new ResponseEntity<>(respData, HttpStatus.OK);
         return resObj;
     }
 

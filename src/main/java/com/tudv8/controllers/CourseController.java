@@ -70,9 +70,9 @@ public class CourseController {
 	}
 
 	@PostMapping("/courses/delete")
-	public ResponseEntity<ResponseData> deleteCourse(@RequestParam CourseIdsList ids) {
+	public ResponseEntity<ResponseData> deleteCourses(@RequestBody CourseIdsList ids) {
 
-		return courseServiceImpl.deleteCourse(ids);
+		return courseServiceImpl.deleteCourses(ids);
 	}
 
 
