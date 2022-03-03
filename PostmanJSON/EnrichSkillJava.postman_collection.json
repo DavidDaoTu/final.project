@@ -6,56 +6,13 @@
 	},
 	"item": [
 		{
-			"name": "Get Courses",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
-		},
-		{
-			"name": "Get Top Courses",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
-		},
-		{
-			"name": "Search Courses By Name",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/api/courses/search?courseName=Devops",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"courses",
-						"search"
-					],
-					"query": [
-						{
-							"key": "courseName",
-							"value": "Devops"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add Course",
+			"name": "1. Add Course Information",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "\r\n{\r\n    \"id\": 3001,\r\n    \"name\": \"Math\",\r\n    \"startDate\": \"2021-10-31T17:00:00.000+00:00\",\r\n    \"endDate\": \"2022-02-18T17:00:00.000+00:00\",\r\n    \"courseStudents\": []\r\n}\r\n",
+					"raw": "\r\n{\r\n    \"id\": 0,\r\n    \"name\": \"Algorithm & Data Structure\",\r\n    \"startDate\": \"2021-10-31T17:00:00.000+00:00\",\r\n    \"endDate\": \"2022-02-18T17:00:00.000+00:00\"     \r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -78,7 +35,36 @@
 			"response": []
 		},
 		{
-			"name": "Upload Courses",
+			"name": "2. Add Student Information",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 0,\r\n    \"studentName\": \"John\",\r\n    \"address\": \"Hanoi\",\r\n    \"birthDate\": \"1993-11-06\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/students",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"students"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. Upload Courses By CSV File",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -109,7 +95,7 @@
 			"response": []
 		},
 		{
-			"name": "Register Coures",
+			"name": "4.1 Register Coures",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -146,7 +132,43 @@
 			"response": []
 		},
 		{
-			"name": "Set Score",
+			"name": "4.2.a Set Scores for Courses",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{    \r\n    \"courseList\": [1, 2, 3, 4, 5, 6, 7, 8, 9],\r\n    \"scoreList\": [7, 3, 6, 8, 2, 5, 8, 9, 1]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/student/set-scores?studentId=2001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"student",
+						"set-scores"
+					],
+					"query": [
+						{
+							"key": "studentId",
+							"value": "2001"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4.2.b Set Score (Optional)",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -181,21 +203,20 @@
 			"response": []
 		},
 		{
-			"name": "Set Scores",
+			"name": "4.3 Get Top 10 Courses",
 			"request": {
-				"method": "POST",
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "5. Search Courses By Name & Order By Descending",
+			"request": {
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n    \r\n    \"courseList\": [3001,  3003],    \r\n    \"scoreList\": [5,  3]\r\n    \r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
 				"url": {
-					"raw": "http://localhost:8080/api/student/set-scores?studentId=2001",
+					"raw": "http://localhost:8080/api/courses/search?courseName=Devops",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -203,13 +224,13 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"student",
-						"set-scores"
+						"courses",
+						"search"
 					],
 					"query": [
 						{
-							"key": "studentId",
-							"value": "2001"
+							"key": "courseName",
+							"value": "Devops"
 						}
 					]
 				}
@@ -217,7 +238,7 @@
 			"response": []
 		},
 		{
-			"name": "Update Course Info",
+			"name": "6. Update Course Info",
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -247,7 +268,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete Courses",
+			"name": "7. Delete Courses",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -277,12 +298,20 @@
 			"response": []
 		},
 		{
-			"name": "Get All Students",
+			"name": "Get  All Courses (Optional)",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Students (Optional)",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/students/3001",
+					"raw": "http://localhost:8080/api/students",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -290,8 +319,7 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"students",
-						"3001"
+						"students"
 					]
 				}
 			},
