@@ -28,8 +28,23 @@ public class CourseServiceImpl implements CourseService{
     @Autowired
     StudentCourseDAO studentCourseDAO;
 
-    public List<Course> getAllCourses() {
-        return courseDao.findAll();
+    public ResponseEntity<ResponseData> getAllCourses() {
+        ResponseEntity<ResponseData> resObj = null;
+        ResponseData respData = null;
+
+        List<Course> courses = courseDao.findAll();
+        if (!courses.isEmpty()) {
+            List<CourseInfo> coursesInfo = new ArrayList<>();
+            for (Course course : courses) {
+                coursesInfo.add(new CourseInfo(course.getId(), course.getCourseName(),
+                                                course.getStartDate(), course.getEndDate()));
+            }
+            respData = new ResponseData(0, coursesInfo, "Success to find courses");
+        } else {
+            respData = new ResponseData(-1, null, "Couldn't find any courses");
+        }
+        resObj = new ResponseEntity<>(respData, HttpStatus.OK);
+        return resObj;
     }
 
     public Course getCourseById(Long id) {
@@ -42,7 +57,7 @@ public class CourseServiceImpl implements CourseService{
         }
     }
 
-    public ResponseEntity<ResponseData> registerCourse(Course course) {
+    public ResponseEntity<ResponseData> registerCourse(CourseInfo course) {
         ResponseEntity<ResponseData> resObj = null;
         ResponseData respData = null;
 
@@ -51,9 +66,12 @@ public class CourseServiceImpl implements CourseService{
         } else if (course.getEndDate() == null) {
             respData = new ResponseData(-1, course, "Missing End Date");
         } else {
-            respData = new ResponseData(0,course,"Success");
-            courseDao.save(course);
+            respData = new ResponseData(0,course,"Success to save the course");
+            courseDao.save(new Course(course.getName(),
+                                        course.getStartDate(),
+                                        course.getEndDate()));
         }
+
         resObj = new ResponseEntity<ResponseData>(respData, HttpStatus.OK);
         return resObj;
     }
@@ -136,7 +154,7 @@ public class CourseServiceImpl implements CourseService{
 
         List<CourseInfo> deletedCourses = new ArrayList<>();
 
-        if (courses.size() > 0) {
+        if (!courses.isEmpty()) {
             for (Course course : courses) {
                 if (currentTime.compareTo(course.getStartDate().toLocalDateTime()) >= 0 &&
                     currentTime.compareTo(course.getEndDate().toLocalDateTime()) <= 0) {
@@ -154,7 +172,8 @@ public class CourseServiceImpl implements CourseService{
             }
 
             if (!deletedCourses.isEmpty()) {
-                respData = new ResponseData(0, deletedCourses, "Success to delete courses");
+                respData = new ResponseData(0, deletedCourses, "Success to delete below courses " +
+                                                                            "& the other courses is invalid to be deleted");
             } else {
                 respData = new ResponseData(0, null, "No valid courses deleted");
             }

@@ -4,9 +4,7 @@ import com.tudv8.entities.Course;
 import com.tudv8.entities.Student;
 import com.tudv8.entities.StudentCourse;
 import com.tudv8.entities.StudentCourseId;
-import com.tudv8.messages.CourseIdsList;
-import com.tudv8.messages.ResponseData;
-import com.tudv8.messages.TopCourses;
+import com.tudv8.messages.*;
 import com.tudv8.repositories.CourseDAO;
 import com.tudv8.repositories.StudentCourseDAO;
 import com.tudv8.repositories.StudentDAO;
@@ -30,8 +28,24 @@ public class StudentServiceImpl implements  StudentService{
     @Autowired
     StudentCourseDAO studentCourseDao;
 
-    public List<Student> getAllStudents() {
-        return studentDao.findAll();
+    public ResponseEntity<ResponseData> getAllStudents() {
+        ResponseEntity<ResponseData> resObj = null;
+        ResponseData respData = null;
+
+        List<Student> students = studentDao.findAll();
+
+        if (!students.isEmpty()) {
+            List<StudentInfo> studentsInfo = new ArrayList<>();
+            for (Student student : students) {
+                studentsInfo.add(new StudentInfo(student.getId(), student.getStudentName(),
+                                                student.getAddress(), student.getBirthdate()));
+            }
+            respData = new ResponseData(0, studentsInfo, "Success to find courses");
+        } else {
+            respData = new ResponseData(-1, null, "Couldn't find any courses");
+        }
+        resObj = new ResponseEntity<>(respData, HttpStatus.OK);
+        return resObj;
     }
 
     public Student getCourseById(Long id) {
@@ -44,19 +58,20 @@ public class StudentServiceImpl implements  StudentService{
         }
     }
 
-    public ResponseEntity<ResponseData> saveStudent(Student student) {
+    public ResponseEntity<ResponseData> saveStudent(StudentInfo student) {
         ResponseEntity<ResponseData> respObj = null;
         ResponseData respData = null;
 
         if ( student.getStudentName() == null) {
             respData = new ResponseData(-1, student,"Missing Student Name");
-        } else if (student.getBirthdate() == null) {
+        } else if (student.getBirthDate() == null) {
             respData = new ResponseData(-1, student, "Missing Birth Date");
         } else if(student.getAddress() == null) {
             respData = new ResponseData(-1, student, "Missing Address");
         } else {
             respData = new ResponseData(0,student,"Success");
-            studentDao.save(student);
+            studentDao.save(new Student(student.getStudentName(), student.getAddress(),
+                                        student.getBirthDate()));
         }
         respObj = new ResponseEntity<ResponseData>(respData, HttpStatus.OK);
         return respObj;

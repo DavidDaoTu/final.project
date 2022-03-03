@@ -1,9 +1,9 @@
 package com.tudv8.messages;
 
 public class ResponseData {
+    private String message;
     private int errCode;
     private Object data;
-    private String message;
 
     public ResponseData(int errCode, Object data, String message) {
         this.errCode = errCode;

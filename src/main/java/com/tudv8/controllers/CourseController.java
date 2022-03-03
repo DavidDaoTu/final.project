@@ -25,11 +25,9 @@ public class CourseController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@GetMapping("/courses")
-	public List<Course> getCourses() {
+	public ResponseEntity<ResponseData> getCourses() {
 		logger.info("Find all courses");
-		List<Course> listCourse = null;
-		listCourse = courseServiceImpl.getAllCourses();
-		return listCourse;
+		return courseServiceImpl.getAllCourses();
 	}
 
 	@GetMapping("/courses/{courseID}")
@@ -43,7 +41,7 @@ public class CourseController {
 	}
 
 	@PostMapping("/courses")
-	public ResponseEntity<ResponseData> addCourse(@RequestBody Course theCourse) {
+	public ResponseEntity<ResponseData> addCourse(@RequestBody CourseInfo theCourse) {
 		// just in case, they pass an id in JSON... we need to set id = 0
 		// --> Create a new course instead of updating
 		logger.info("Add a course with given ID: " + theCourse.getId());

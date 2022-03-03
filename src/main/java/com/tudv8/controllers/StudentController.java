@@ -4,6 +4,7 @@ import com.tudv8.entities.Student;
 import com.tudv8.messages.CourseIdsList;
 import com.tudv8.messages.ResponseData;
 import com.tudv8.messages.CourseScoreList;
+import com.tudv8.messages.StudentInfo;
 import com.tudv8.services.StudentServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +23,9 @@ public class StudentController {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@GetMapping("/students")
-	public List<Student> getStudents() {
+	public ResponseEntity<ResponseData> getStudents() {
 		logger.info("Find all students");
-		List<Student> listStud = null;
-		listStud = studentServiceImpl.getAllStudents();
-		return listStud;
+		return studentServiceImpl.getAllStudents();
 	}
 
 	@GetMapping("/students/{studentID}")
@@ -41,7 +40,7 @@ public class StudentController {
 	}
 
 	@PostMapping("/students")
-	public ResponseEntity<ResponseData> addStudent(@RequestBody Student theStudent) {
+	public ResponseEntity<ResponseData> addStudent(@RequestBody StudentInfo theStudent) {
 		// just in case they pass an id in JSON... set id = 0
 		// --> Create new student instead of updating
 		logger.info("Input student information to the database");

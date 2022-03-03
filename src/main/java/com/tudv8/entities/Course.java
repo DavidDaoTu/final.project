@@ -35,6 +35,12 @@ public class Course {
         this.endDate = endDate;
     }
 
+    public Course(String courseName, Timestamp startDate, Timestamp endDate) {
+        this.courseName = courseName;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public Long getId() {
         return id;
     }
